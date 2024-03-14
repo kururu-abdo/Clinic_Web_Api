@@ -29,12 +29,22 @@ Logo =dto.Logo
         return dto;
         }
 
+        public Task<string?> Delete(string hosptialId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Clinic>> GetAll()
         {
             return  
             await _clinicDb.Clinics
             
             .ToListAsync();
+        }
+
+        public Task<HospitalDTO> Update(HospitalDTO dto)
+        {
+            throw new NotImplementedException();
         }
     }
 

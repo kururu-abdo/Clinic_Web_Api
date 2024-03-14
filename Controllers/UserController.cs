@@ -82,7 +82,28 @@ public async Task<IActionResult> LoginAsync(LoginDto  loginDto){
 
 
     }
+/*
+[HttpPost("SendPaymentRequest")]
+        public async Task<IActionResult> SendPaymentRequest(int orderId)
+        {
+            var result = await _paymentService.SendPaymentRequest(orderId);
+            if (!result.HasErrors)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
 
-
+        [HttpPost("CheckPaymentRequest")]
+        public async Task<IActionResult> CheckPaymentRequest(int orderId)
+        {
+            var result = await _paymentService.CheckPaymentRequest(orderId);
+            if (!result.HasErrors)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+*/
 }

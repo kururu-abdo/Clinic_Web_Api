@@ -8,7 +8,10 @@ namespace clinic.Models
 
         public DateTime DateAdded { get; set; } =  DateTime.Now ;
         
-
+  //Payment Fields
+        public int? PaymentStatus { get; set; } 
+        public string? PaymentOrderRef { get; set; }
+        public string? PaymentUrl { get; set; }
 
         public User User {get; set;}
         public Schedule Schedule {get; set;}

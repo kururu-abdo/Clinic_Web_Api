@@ -13,9 +13,12 @@ namespace clinic.Repository
     {
         private readonly ClinicDb _clinicDb;
 private readonly IPasswordHasher _passwordHasher;
-        public UserRepository(ClinicDb clinicDb , IPasswordHasher passwordHasher){
+private readonly IJwtProvider _iJwtProvider;
+        public UserRepository(ClinicDb clinicDb ,
+         IPasswordHasher passwordHasher , IJwtProvider iJwtProdiver){
             _clinicDb=clinicDb;
             _passwordHasher =passwordHasher;
+            _iJwtProvider =iJwtProdiver;
         }
 
         public async Task<string> AddRole(string name , string des)
@@ -111,7 +114,9 @@ if(!_passwordHasher.VerifyPassword(user.Password ,dto.Password)){
     return null;
 }
 
-           
+           var token  = _iJwtProvider.GetToken(dto.Username,"User");
+           user.Token = token;
+        await   _clinicDb.SaveChangesAsync();
 
 
 
@@ -127,6 +132,39 @@ var user = await _clinicDb.Users.Where(x=> x.UserName==Username).FirstOrDefaultA
 
 
 return user!=null;
+        }
+
+        public async Task<UserLogin?> Update(
+            string userId,
+            string userName, string email, 
+             string mobile, string address
+             )
+        {
+            var user = await _clinicDb.Users.Where(x=> x.Id==Guid.Parse(userId)).FirstOrDefaultAsync();
+                if(user is null) return null;
+            user.Email=email;
+            user.UserName=userName;
+            user.Mobile= mobile;
+            user.Address=address;    
+await _clinicDb.SaveChangesAsync();
+
+           return new UserLogin{
+            UserName = user.UserName,
+            Token= user.Token,
+            UserId=user.Id,
+            
+
+           };
+        }
+
+        public async Task<string?> Delete(string UserId)
+        {            var user = await _clinicDb.Users.Where(x=> x.Id==Guid.Parse(UserId)).FirstOrDefaultAsync();
+
+  if (user is null) return null;
+  
+            _clinicDb.Users.Remove(user);
+await _clinicDb.SaveChangesAsync();
+           return  "User Deleted";
         }
     }
 }

@@ -19,5 +19,16 @@ namespace clinic.Repository
 Task<User?> GetUserByUserName(string userName);
 Task<User?> LoginAsync(LoginDto dto);
 Task<Boolean> userExists(string Username);
+
+  Task<UserLogin?> Update(
+    string userId,
+            string userName , string email ,
+             string mobile,
+           string address 
+        );
+
+Task<string?> Delete(string UserId);
+
+
     }
 }
